@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MessageSquare, Activity, Calendar, FileText, Info, GraduationCap, BookOpen, Clock, HeartPulse, Pill, BadgeAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import MedicationList from '@/components/medications/MedicationList';
+import MedicationHistory from '@/components/medications/MedicationHistory';
 
 // Types for learning resources and health records
 interface LearningResource {
@@ -171,6 +173,10 @@ const Dashboard = () => {
                 <GraduationCap className="h-4 w-4" />
                 <span>Learning Resources</span>
               </TabsTrigger>
+              <TabsTrigger value="medications" className="flex items-center gap-2">
+                <Pill className="h-4 w-4" />
+                <span>Medications</span>
+              </TabsTrigger>
               <TabsTrigger value="health-records" className="flex items-center gap-2">
                 <FileText className="h-4 w-4" />
                 <span>Health Records</span>
@@ -299,6 +305,45 @@ const Dashboard = () => {
                   </p>
                 </div>
               )}
+            </TabsContent>
+
+            {/* Medications Tab */}
+            <TabsContent value="medications" className="mt-6 animate-fadeIn">
+              <div className="mb-6">
+                <Card className="p-4 bg-blue-50 border-blue-200">
+                  <div className="flex items-start gap-3">
+                    <Pill className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-blue-700">Medication Reminder System</h3>
+                      <p className="text-sm text-blue-600 mt-1">
+                        Never miss a dose with our smart reminder system. Track your medications, get timely notifications, 
+                        and monitor your adherence for better health outcomes.
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+              
+              <Tabs defaultValue="current" className="w-full">
+                <TabsList className="mb-4">
+                  <TabsTrigger value="current" className="flex items-center gap-2">
+                    <Pill className="h-4 w-4" />
+                    <span>Current Medications</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="history" className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    <span>Medication History</span>
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="current" className="mt-0">
+                  <MedicationList />
+                </TabsContent>
+                
+                <TabsContent value="history" className="mt-0">
+                  <MedicationHistory />
+                </TabsContent>
+              </Tabs>
             </TabsContent>
 
             {/* Health Records Tab */}
