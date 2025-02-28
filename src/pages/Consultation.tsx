@@ -1,6 +1,9 @@
 
 import SymptomForm from '@/components/SymptomForm';
 import Navbar from '@/components/Navbar';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { Bot } from 'lucide-react';
 
 const Consultation = () => {
   return (
@@ -17,6 +20,21 @@ const Consultation = () => {
               Please provide detailed information about your symptoms. A qualified healthcare professional will review your case and provide appropriate guidance.
             </p>
           </section>
+
+          <div className="bg-blue-50 rounded-lg p-6 max-w-2xl mx-auto">
+            <div className="flex items-center gap-3 mb-4">
+              <Bot className="h-6 w-6 text-primary" />
+              <h3 className="text-lg font-medium text-gray-800">Try Our New AI Health Assistant</h3>
+            </div>
+            <p className="text-gray-600 mb-4">
+              Get instant feedback on your symptoms, personalized health recommendations, and preliminary diagnosis suggestions from our AI-powered healthcare assistant.
+            </p>
+            <Link to="/dashboard">
+              <Button className="bg-primary hover:bg-primary/90">
+                Go to AI Health Assistant
+              </Button>
+            </Link>
+          </div>
 
           <div>
             <SymptomForm />
