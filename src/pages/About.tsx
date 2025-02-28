@@ -13,12 +13,14 @@ import {
   CheckCircle2
 } from "lucide-react";
 
+type IconComponent = typeof HeartPulse;
+
 const AboutSection = ({ 
   icon: Icon, 
   title, 
   children 
 }: { 
-  icon: React.ElementRef<typeof HeartPulse>; 
+  icon: IconComponent; 
   title: string; 
   children: React.ReactNode;
 }) => (

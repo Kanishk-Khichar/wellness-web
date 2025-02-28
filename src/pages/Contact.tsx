@@ -12,15 +12,19 @@ import {
   Send, 
   MessageSquareHeart,
   CalendarCheck,
-  HelpCircle
+  HelpCircle,
+  Calendar,
+  MessageSquare
 } from "lucide-react";
+
+type IconComponent = typeof Mail;
 
 const ContactInfo = ({ 
   icon: Icon, 
   title, 
   children 
 }: { 
-  icon: React.ElementRef<typeof Mail>; 
+  icon: IconComponent; 
   title: string; 
   children: React.ReactNode;
 }) => (
