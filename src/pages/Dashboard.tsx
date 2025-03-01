@@ -8,18 +8,9 @@ import { MessageSquare, Activity, Calendar, FileText, Info, GraduationCap, BookO
 import { Button } from '@/components/ui/button';
 import MedicationList from '@/components/medications/MedicationList';
 import MedicationHistory from '@/components/medications/MedicationHistory';
+import ResourceDetailDialog, { LearningResource } from '@/components/learning/ResourceDetailDialog';
 
 // Types for learning resources and health records
-interface LearningResource {
-  id: string;
-  title: string;
-  type: 'article' | 'video' | 'faq';
-  category: string;
-  description: string;
-  timeToComplete: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
-}
-
 interface Medication {
   id: string;
   name: string;
@@ -45,7 +36,25 @@ const learningResources: LearningResource[] = [
     category: 'Heart Health',
     description: 'Learn about the importance of monitoring blood pressure and what your numbers mean.',
     timeToComplete: '5 min',
-    level: 'beginner'
+    level: 'beginner',
+    content: `<h2>Understanding Blood Pressure</h2>
+      <p>Blood pressure is the force of blood pushing against the walls of your arteries as your heart pumps blood. High blood pressure, or hypertension, is when this force is consistently too high.</p>
+      <h3>Blood Pressure Readings</h3>
+      <p>A blood pressure reading consists of two numbers:</p>
+      <ul>
+        <li><strong>Systolic pressure (top number)</strong>: The pressure when your heart beats and pushes blood through your arteries.</li>
+        <li><strong>Diastolic pressure (bottom number)</strong>: The pressure when your heart rests between beats.</li>
+      </ul>
+      <h3>Blood Pressure Categories</h3>
+      <p>According to the American Heart Association, blood pressure ranges are:</p>
+      <ul>
+        <li><strong>Normal</strong>: Less than 120/80 mm Hg</li>
+        <li><strong>Elevated</strong>: Systolic 120-129 and diastolic less than 80</li>
+        <li><strong>Hypertension Stage 1</strong>: Systolic 130-139 or diastolic 80-89</li>
+        <li><strong>Hypertension Stage 2</strong>: Systolic 140 or higher or diastolic 90 or higher</li>
+        <li><strong>Hypertensive Crisis</strong>: Systolic higher than 180 and/or diastolic higher than 120</li>
+      </ul>
+      <p>Regular monitoring of your blood pressure is essential for maintaining good health and preventing serious conditions like heart disease and stroke.</p>`
   },
   {
     id: '2',
@@ -138,6 +147,8 @@ const appointments: Appointment[] = [
 const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedLevel, setSelectedLevel] = useState<string>('all');
+  const [selectedResource, setSelectedResource] = useState<LearningResource | null>(null);
+  const [isResourceDialogOpen, setResourceDialogOpen] = useState<boolean>(false);
   
   // Filter learning resources based on selected category and level
   const filteredResources = learningResources.filter(resource => {
@@ -149,6 +160,17 @@ const Dashboard = () => {
   // Get unique categories for filter
   const categories = ['all', ...new Set(learningResources.map(r => r.category))];
   const levels = ['all', 'beginner', 'intermediate', 'advanced'];
+
+  // Function to open resource detail dialog
+  const openResourceDetail = (resource: LearningResource) => {
+    setSelectedResource(resource);
+    setResourceDialogOpen(true);
+  };
+
+  // Function to close resource detail dialog
+  const closeResourceDetail = () => {
+    setResourceDialogOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -264,7 +286,11 @@ const Dashboard = () => {
               {/* Learning Resources Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredResources.map((resource) => (
-                  <Card key={resource.id} className="overflow-hidden hover:shadow-md transition-shadow duration-300">
+                  <Card 
+                    key={resource.id} 
+                    className="overflow-hidden hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                    onClick={() => openResourceDetail(resource)}
+                  >
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <CardTitle className="text-lg">{resource.title}</CardTitle>
@@ -288,7 +314,14 @@ const Dashboard = () => {
                           {resource.level.charAt(0).toUpperCase() + resource.level.slice(1)}
                         </span>
                       </div>
-                      <Button variant="outline" className="w-full mt-4">
+                      <Button 
+                        variant="outline" 
+                        className="w-full mt-4"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent card click event
+                          openResourceDetail(resource);
+                        }}
+                      >
                         {resource.type === 'video' ? 'Watch Now' : 'Read Now'}
                       </Button>
                     </CardContent>
@@ -305,6 +338,13 @@ const Dashboard = () => {
                   </p>
                 </div>
               )}
+
+              {/* Resource Detail Dialog */}
+              <ResourceDetailDialog 
+                resource={selectedResource}
+                isOpen={isResourceDialogOpen}
+                onClose={closeResourceDetail}
+              />
             </TabsContent>
 
             {/* Medications Tab */}
