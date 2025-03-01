@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Plus, Pills, Search, RefreshCw } from 'lucide-react';
+import { Plus, Pill, Search, RefreshCw } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Medication } from '@/models/medication';
 import MedicationItem from './MedicationItem';
@@ -111,7 +111,7 @@ const MedicationList = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold flex items-center">
-          <Pills className="mr-2 h-5 w-5 text-primary" />
+          <Pill className="mr-2 h-5 w-5 text-primary" />
           Medications
         </h2>
         <Button onClick={handleAddMedication} className="flex items-center gap-2">
@@ -153,7 +153,7 @@ const MedicationList = () => {
         </div>
       ) : (
         <div className="text-center py-8">
-          <Pills className="mx-auto h-12 w-12 text-gray-300" />
+          <Pill className="mx-auto h-12 w-12 text-gray-300" />
           <h3 className="mt-2 text-xl font-semibold text-gray-700">No medications found</h3>
           <p className="text-gray-500 mt-1">
             {searchTerm
